@@ -17,8 +17,10 @@ const requestListener = async function (req, res) {
   const [_, path, param] = req.url.split('/');
   res.writeHead(200);
   if (path === 'health') {
+    console.log('Health request!');
     res.end(JSON.stringify({ works: true }));
   } else {
+    console.log('Work request!');
     const n = param ? parseFloat(param) : 1000;
     const result = await runService(n);
     res.end(JSON.stringify(result));
@@ -27,3 +29,5 @@ const requestListener = async function (req, res) {
 
 const server = http.createServer(requestListener);
 server.listen(1337);
+
+console.log('servicer started!');

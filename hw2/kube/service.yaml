@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service
+spec:
+  selector:
+    matchLabels:
+      app: service
+  template:
+    metadata:
+      labels:
+        app: service
+    spec:
+      containers:
+        - name: app
+          resources: # Resource
+            limits:
+              cpu: "1"
+              memory: "200Mi"
+            requests:
+              cpu: 500m
+              memory: "100Mi"
+          livenessProbe: # make request to /health to check if server runs
+            exec:
+              command:
+              - wget
+              - localhost:1337/health
+              - -O-
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          image: bilchuck/cloud-hw2
+          ports:
+          - containerPort: 1337
+          imagePullPolicy: Always

@@ -1,0 +1,16 @@
+kind: HorizontalPodAutoscaler 
+apiVersion: autoscaling/v2beta1 
+metadata: 
+  name: service 
+spec: 
+  maxReplicas: 10 
+  minReplicas: 1 
+  scaleTargetRef: 
+    apiVersion: app/v1 
+    kind: Deployment 
+    name: service 
+  metrics: 
+  - type: Resource 
+    resource: 
+      name: cpu 
+      targetAverageUtilization: 30 # autoscale when CPU resource is used in 30% (for testing it's okay)
